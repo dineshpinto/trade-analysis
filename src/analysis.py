@@ -76,11 +76,11 @@ def get_profitability(order_indexes: list, positions: list, take_profits: list, 
     for idx in range(len(order_indexes)):
         profit_pct = None
 
-        idx1 = df_price.index.get_loc(df.index[order_indexes[idx]], method='nearest')
+        idx1 = df_price.index.get_indexer([df.index[order_indexes[idx]]], method='nearest')[0]
         if idx == len(order_indexes) - 1:
             idx2 = len(df_price.index) - 1
         else:
-            idx2 = df_price.index.get_loc(df.index[order_indexes[idx + 1]], method='nearest')
+            idx2 = df_price.index.get_indexer([df.index[order_indexes[idx + 1]]], method='nearest')[0]
 
         if positions[idx] == "buy":
             max_idx = [i for i, val in enumerate(df_price.high[idx1:idx2]) if val >= take_profits[idx]]
