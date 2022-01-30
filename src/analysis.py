@@ -22,11 +22,11 @@ def get_orders(
         if funding_rate_change > target_funding_rate_change:
             if current_rate_shifted > next_rate_shifted:
                 positions.append("sell")
-                if plot:
+                if plot and ax:
                     ax.axvline(df.index[idx + 1], color="tab:red", linestyle="--")
             else:
                 positions.append("buy")
-                if plot:
+                if plot and ax:
                     ax.axvline(df.index[idx + 1], color="tab:green", linestyle="--")
 
             # ax2.axhline(df.price[idx + 1], color="tab:grey", linestyle="--")
@@ -66,7 +66,7 @@ def get_tp_and_sl(
         else:
             raise ValueError(f"Invalid position {positions[idx]}")
 
-        if plot:
+        if plot and ax:
             ax.plot((df.index[order_indexes[idx]], df.index[end_idx]),
                     (take_profit, take_profit),
                     linestyle="--", color='tab:green', alpha=0.5)
@@ -134,7 +134,7 @@ def get_profitability(
 
         profitability.append(profit_pct)
 
-        if plot:
+        if plot and ax:
             if profit_pct > 0:
                 color = "tab:green"
             else:
@@ -154,9 +154,9 @@ def test_trade_setup(
         sl_percent: float,
         df: pd.DataFrame,
         df_price: pd.DataFrame,
-        ax1: plt.subplot,
-        ax2: plt.subplot,
-        plot: bool = True) -> Tuple[list, list, list, list, list]:
+        ax1: plt.subplot = None,
+        ax2: plt.subplot = None,
+        plot: bool = False) -> Tuple[list, list, list, list, list]:
 
     order_indexes, positions = get_orders(target_funding_rate_change, df=df, ax=ax1, plot=plot)
     take_profits, stop_losses = get_tp_and_sl(tp_percent, sl_percent, order_indexes, positions,
