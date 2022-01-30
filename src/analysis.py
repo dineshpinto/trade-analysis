@@ -4,8 +4,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def get_orders(target_funding_rate_change: float, df: pd.DataFrame, ax: plt.subplot, plot: bool) \
-        -> Tuple[list, list]:
+def get_orders(
+        target_funding_rate_change: float,
+        df: pd.DataFrame,
+        ax: plt.subplot,
+        plot: bool) -> Tuple[list, list]:
+
     order_indexes = []
     positions = []
 
@@ -34,8 +38,15 @@ def get_orders(target_funding_rate_change: float, df: pd.DataFrame, ax: plt.subp
     return order_indexes, positions
 
 
-def get_tp_and_sl(tp_percent: float, sl_percent: float, order_indexes: list, positions: list,
-                  df: pd.DataFrame, ax: plt.subplot, plot: bool) -> Tuple[list, list]:
+def get_tp_and_sl(
+        tp_percent: float,
+        sl_percent: float,
+        order_indexes: list,
+        positions: list,
+        df: pd.DataFrame,
+        ax: plt.subplot,
+        plot: bool) -> Tuple[list, list]:
+
     take_profits, stop_losses = [], []
 
     for idx in range(len(order_indexes)):
@@ -69,8 +80,16 @@ def get_tp_and_sl(tp_percent: float, sl_percent: float, order_indexes: list, pos
     return take_profits, stop_losses
 
 
-def get_profitability(order_indexes: list, positions: list, take_profits: list, stop_losses: list,
-                      df: pd.DataFrame, df_price: pd.DataFrame, ax: plt.subplot, plot: bool) -> list:
+def get_profitability(
+        order_indexes: list,
+        positions: list,
+        take_profits: list,
+        stop_losses: list,
+        df: pd.DataFrame,
+        df_price: pd.DataFrame,
+        ax: plt.subplot,
+        plot: bool) -> list:
+
     profitability = []
 
     for idx in range(len(order_indexes)):
@@ -129,11 +148,19 @@ def get_profitability(order_indexes: list, positions: list, take_profits: list, 
     return profitability
 
 
-def test_trade_setup(target_funding_rate_change, tp_percent, sl_percent, df, df_price, ax1, ax2, plot=True) \
-        -> Tuple[list, list, list, list, list]:
+def test_trade_setup(
+        target_funding_rate_change: float,
+        tp_percent: float,
+        sl_percent: float,
+        df: pd.DataFrame,
+        df_price: pd.DataFrame,
+        ax1: plt.subplot,
+        ax2: plt.subplot,
+        plot: bool = True) -> Tuple[list, list, list, list, list]:
+
     order_indexes, positions = get_orders(target_funding_rate_change, df=df, ax=ax1, plot=plot)
-    take_profits, stop_losses = get_tp_and_sl(tp_percent, sl_percent, order_indexes, positions, df, ax=ax2,
-                                              plot=plot)
-    profitability = get_profitability(order_indexes, positions, take_profits, stop_losses, df, df_price, ax=ax2,
-                                      plot=plot)
+    take_profits, stop_losses = get_tp_and_sl(tp_percent, sl_percent, order_indexes, positions,
+                                              df, ax=ax2, plot=plot)
+    profitability = get_profitability(order_indexes, positions, take_profits, stop_losses, df,
+                                      df_price, ax=ax2, plot=plot)
     return order_indexes, positions, take_profits, stop_losses, profitability

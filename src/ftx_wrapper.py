@@ -18,7 +18,7 @@ def _reconnect_ftx():
                     subaccount_name=config["ftx"]["account"])
 
 
-def get_ftx_fills(start_time, end_time):
+def get_ftx_fills(start_time: float, end_time: float) -> pd.DataFrame:
     _reconnect_ftx()
     fills = list(reversed(ftx.get_fills(start_time=start_time, end_time=end_time)))
     df = pd.DataFrame(columns=fills[0].keys())
@@ -47,9 +47,3 @@ def get_historical_data(start_time: float, end_time: float, resolution: int = 30
 
     df = df.set_index("time")
     return df
-
-
-
-
-
-

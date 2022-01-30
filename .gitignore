@@ -3,6 +3,7 @@ configuration.yml
 *.csv
 *.pkl
 *.jpg
+*.png
 
 # PyCharm
 .idea/
